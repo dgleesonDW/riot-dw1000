@@ -1,0 +1,98 @@
+\documentclass{article}
+\usepackage{epsfig}
+\pagestyle{empty}
+\begin{document}
+$MCGOUTCLK = \frac{ERC_{\mathrm{freq}}\cdot FFL_{\mathrm{Factor}}}{FRDIV} = \frac{4\,\mathrm{MHz}\cdot 732}{128} = 22.875\,\mathrm{MHz}$
+\pagebreak
+
+$MCGOUTCLK = \frac{ERC_{\mathrm{freq}}\cdot VDIV0}{PRDIV} = \frac{4\,\mathrm{MHz}\cdot 24}{2} = 48\,\mathrm{MHz}$
+\pagebreak
+
+$\mu T$
+\pagebreak
+
+$ a = \frac{value \cdot 1000}{1024} \cdot mg $
+\pagebreak
+
+$ a = \frac{value \cdot 1000}{512} \cdot mg $
+\pagebreak
+
+$ a = \frac{value \cdot 1000}{256} \cdot mg $
+\pagebreak
+
+$^\circ C \cdot 10$
+\pagebreak
+
+\begin{eqnarray*} R_{min} &=& \frac{V_{DD} - V_{OL(max)}} {I_{OL}}\\ R_{max} &=& \frac{t_r} {(0.8473 \cdot C_b)} \end{eqnarray*}
+\pagebreak
+
+$ V_{DD} =$
+\pagebreak
+
+$ V_{OL(max)} =$
+\pagebreak
+
+$ I_{OL} =$
+\pagebreak
+
+$ t_r =$
+\pagebreak
+
+$ C_b =$
+\pagebreak
+
+\begin{eqnarray*} T_{\mathrm{DIE}} &=& \frac{T_{\mathrm{RAW}}}{128} \end{eqnarray*}
+\pagebreak
+
+\begin{eqnarray*} T_{\mathrm{DIFF}} &=& T_{\mathrm{DIE}} - T_{\mathrm{REF}} \end{eqnarray*}
+\pagebreak
+
+$S_{\mathrm{0}}$
+\pagebreak
+
+\begin{eqnarray*} S &=& S_{\mathrm{0}} \cdot ( 1 + a_1 \cdot T_{\mathrm{DIFF}} + a_2 \cdot T_{\mathrm{DIFF}}^2 ) \\ \end{eqnarray*}
+\pagebreak
+
+$ 156.25\,\mathrm{nV} $
+\pagebreak
+
+\begin{eqnarray*} V_{\mathrm{OBJ}} &=& V_{\mathrm{RAW}} \cdot 156.25\,\mathrm{nV} \end{eqnarray*}
+\pagebreak
+
+\begin{eqnarray*} V_{OS} &=& b_0 + b_1 \cdot T_{\mathrm{DIFF}} + b_2 \cdot T_{\mathrm{DIFF}}^2 \\ \end{eqnarray*}
+\pagebreak
+
+\begin{eqnarray*} f(V_{\mathrm{OBJ}}) &=& (V_{\mathrm{OBJ}} - V_{O\mathrm{S}}) + c_2 \cdot (V_{\mathrm{OBJ}} - V_{\mathrm{OS}})^2 \\ \end{eqnarray*}
+\pagebreak
+
+\begin{eqnarray*} T_{\mathrm{OBJ}} &=& \sqrt[4]{T_{\mathrm{DIE}}^4 + \frac{f(V_{\mathrm{OBJ}})}{S}} \\ \end{eqnarray*}
+\pagebreak
+
+\begin{eqnarray*} a_{\mathrm{1}} &=& 1.75 \cdot 10^{-3} \\ a_{\mathrm{2}} &=& -1.678 \cdot 10^{-5} \\ T_{\mathrm{REF}} &=& 298.15\,\mathrm{K} \\ b_{\mathrm{0}} &=& -2.94 \cdot 10^{-5} \\ b_{\mathrm{1}} &=& -5.7 \cdot 10^{-7} \\ b_{\mathrm{2}} &=& 4.63 \cdot 10^{-9} \\ c_{\mathrm{2}} &=& 13.4 \end{eqnarray*}
+\pagebreak
+
+$a_{\mathrm{1}}$
+\pagebreak
+
+$a_{\mathrm{2}}$
+\pagebreak
+
+$T_{\mathrm{REF}}$
+\pagebreak
+
+$b_{\mathrm{0}}$
+\pagebreak
+
+$b_{\mathrm{1}}$
+\pagebreak
+
+$b_{\mathrm{2}}$
+\pagebreak
+
+$c_{\mathrm{2}}$
+\pagebreak
+
+$ (2^{11} - 1) $
+\pagebreak
+
+\end{document}

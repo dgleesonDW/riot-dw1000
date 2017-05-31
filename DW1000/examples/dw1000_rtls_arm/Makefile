@@ -1,0 +1,49 @@
+####
+#### Makefile for building Decarange RTLS ARM application with the RIOT OS
+####
+#### The example file system layout is:
+#### ./application Makefile
+#### ../../RIOT
+####
+
+# Set the name of your application:
+APPLICATION = dw1000_rtls_arm
+
+# Board to be build for:
+BOARD ?= samr21-xpro
+
+# This has to be the absolute path to the RIOT base directory:
+RIOTBASE ?= $(CURDIR)/../../../RIOT
+
+FEATURES_REQUIRED += periph_gpio
+FEATURES_REQUIRED += periph_spi
+
+ifeq ($(BOARD),nrf52dk)
+FEATURES_REQUIRED += periph_rtt
+endif
+
+# Uncomment this to enable code in RIOT that does safety checking
+# which is not needed in a production environment but helps in the
+# development process:
+CFLAGS += -DDEVELHELP
+
+CFLAGS += -DRIOT_TREK_DW1000_APP
+
+ifeq ($(BOARD),nrf52dk)
+CFLAGS += -DNORDIC_NRF52840_BOARD
+endif
+
+# Change this to 0 to show compiler invocation lines by default:
+QUIET ?= 1
+
+DRIVER += dw1000
+
+# Modules to include:
+USEMODULE += xtimer
+USEMODULE += dw1000_common
+USEMODULE += $(DRIVER)
+USEMODULE += printf_float
+
+#DIRS += dw1000_common
+
+include $(RIOTBASE)/Makefile.include

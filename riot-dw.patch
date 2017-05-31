@@ -1,0 +1,251 @@
+diff -u -r RIOT/boards/nrf52dk/include/periph_conf.h ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nrf52dk/include/periph_conf.h
+--- RIOT/boards/nrf52dk/include/periph_conf.h	2017-05-30 15:36:48.716585436 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nrf52dk/include/periph_conf.h	2017-05-14 16:38:00.000000000 +0530
+@@ -61,8 +61,14 @@
+ #define RTT_IRQ             RTC1_IRQn
+ #define RTT_ISR             isr_rtc1
+ #define RTT_MAX_VALUE       (0xffffff)
+-#define RTT_FREQUENCY       (10)            /* in Hz */
+-#define RTT_PRESCALER       (3275U)         /* run with 10 Hz */
++
++#ifdef RIOT_TREK_DW1000_APP                /* Configure the RTT frequency as 32Hz */
++#define RTT_FREQUENCY       (32768U)       /* in Hz */
++#define RTT_PRESCALER       (0U)           /* run with 32 kHz */
++#else                                      /* Configure the RTT frequency as 10Hz */
++#define RTT_FREQUENCY       (10U)          /* in Hz */
++#define RTT_PRESCALER       (3275U)        /* run with 10 Hz */
++#endif
+ /** @} */
+ 
+ /**
+@@ -83,7 +89,16 @@
+         .dev  = NRF_SPI0,
+         .sclk = 15,
+         .mosi = 13,
+-        .miso = 14 }
++        .miso = 14
++    },
++#ifdef RIOT_TREK_DW1000_APP /* Define a second SPI instance for Decawave applications */
++    {
++        .dev  = NRF_SPI0,
++        .sclk = 3,
++        .mosi = 4,
++        .miso = 28
++    }
++#endif
+ };
+ 
+ #define SPI_NUMOF           (sizeof(spi_config) / sizeof(spi_config[0]))
+diff -u -r RIOT/boards/nrf52dk/Makefile ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nrf52dk/Makefile
+--- RIOT/boards/nrf52dk/Makefile	2017-05-30 15:36:48.344585438 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nrf52dk/Makefile	2017-05-14 16:38:00.000000000 +0530
+@@ -1,3 +1,3 @@
+ MODULE = board
+-
++DIRS += dw1000
+ include $(RIOTBASE)/Makefile.base
+diff -u -r RIOT/boards/nucleo-f401/include/periph_conf.h ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nucleo-f401/include/periph_conf.h
+--- RIOT/boards/nucleo-f401/include/periph_conf.h	2017-05-30 15:36:48.720585436 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nucleo-f401/include/periph_conf.h	2017-05-14 16:38:00.000000000 +0530
+@@ -30,7 +30,11 @@
+  * @{
+  */
+ #define CLOCK_HSE           (8000000U)          /* external oscillator */
++#ifdef RIOT_TREK_DW1000_APP /* Configure core clock frequency to 72MHz */
++#define CLOCK_CORECLOCK     (72000000U)         /* desired core clock frequency */
++#else
+ #define CLOCK_CORECLOCK     (84000000U)         /* desired core clock frequency */
++#endif
+ 
+ /* the actual PLL values are automatically generated */
+ #define CLOCK_PLL_M         (CLOCK_HSE / 1000000)
+@@ -147,6 +151,7 @@
+  *          `cpu/stm32_common/dist/spi_divtable/spi_divtable.c`
+  * @{
+  */
++
+ static const uint8_t spi_divtable[2][5] = {
+     {       /* for APB1 @ 42000000Hz */
+         7,  /* -> 164062Hz */
+@@ -160,7 +165,11 @@
+         7,  /* -> 328125Hz */
+         5,  /* -> 1312500Hz */
+         3,  /* -> 5250000Hz */
++#ifdef RIOT_TREK_DW1000_APP  /* SPI scaler value for generating 18 MHZ SPI clock frequency */
++        1   /* -> 18000000Hz */
++#else
+         2   /* -> 10500000Hz */
++#endif
+     }
+ };
+ 
+@@ -173,6 +182,16 @@
+         .cs_pin   = GPIO_PIN(PORT_A, 4),
+         .af       = GPIO_AF5,
+         .rccmask  = RCC_APB2ENR_SPI1EN,
++        .apbbus   = APB2
++    },
++    {
++        .dev      = SPI1,
++        .mosi_pin = GPIO_PIN(PORT_B, 5),
++        .miso_pin = GPIO_PIN(PORT_B, 4),
++        .sclk_pin = GPIO_PIN(PORT_B, 3),
++        .cs_pin   = GPIO_PIN(PORT_A, 4),
++        .af       = GPIO_AF5,
++        .rccmask  = RCC_APB2ENR_SPI1EN,
+         .apbbus   = APB2
+     }
+ };
+diff -u -r RIOT/boards/nucleo-f401/Makefile ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nucleo-f401/Makefile
+--- RIOT/boards/nucleo-f401/Makefile	2017-05-30 15:36:48.348585438 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nucleo-f401/Makefile	2017-05-14 16:38:00.000000000 +0530
+@@ -1,3 +1,3 @@
+ MODULE = board
+-
++DIRS += dw1000
+ include $(RIOTBASE)/Makefile.base
+diff -u -r RIOT/boards/samr21-xpro/Makefile ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/samr21-xpro/Makefile
+--- RIOT/boards/samr21-xpro/Makefile	2017-05-30 15:36:48.352585438 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/samr21-xpro/Makefile	2017-05-14 16:38:00.000000000 +0530
+@@ -1,3 +1,3 @@
+ MODULE = board
+-
++DIRS += dw1000
+ include $(RIOTBASE)/Makefile.base
+diff -u -r RIOT/cpu/cortexm_common/include/cpu_conf_common.h ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/cortexm_common/include/cpu_conf_common.h
+--- RIOT/cpu/cortexm_common/include/cpu_conf_common.h	2017-05-30 15:36:48.364585438 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/cortexm_common/include/cpu_conf_common.h	2017-05-14 16:38:00.000000000 +0530
+@@ -53,8 +53,14 @@
+  * @{
+  */
+ #ifndef ISR_STACKSIZE
++
++#ifdef RIOT_TREK_DW1000_APP /* Stack size used for the ISR stack */
++#define ISR_STACKSIZE                   (2048U) /* TBD */
++#else
+ #define ISR_STACKSIZE                   (512U)
+ #endif
++
++#endif
+ /** @} */
+ 
+ #ifdef __cplusplus
+diff -u -r RIOT/cpu/samd21/periph/rtt.c ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/samd21/periph/rtt.c
+--- RIOT/cpu/samd21/periph/rtt.c	2017-05-30 15:36:48.428585437 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/samd21/periph/rtt.c	2017-05-14 16:38:01.000000000 +0530
+@@ -96,7 +96,11 @@
+     while (rtcMode0->STATUS.bit.SYNCBUSY || rtcMode0->CTRL.bit.SWRST) {}
+ 
+     /* Configure as 32bit counter with no prescaler and no clear on match compare */
++#ifdef RIOT_TREK_DW1000_APP
++    rtcMode0->CTRL.reg = RTC_MODE0_CTRL_MODE_COUNT32 | RTC_MODE0_CTRL_PRESCALER_DIV1 | RTC_MODE0_CTRL_MATCHCLR;
++#else
+     rtcMode0->CTRL.reg = RTC_MODE0_CTRL_MODE_COUNT32 | RTC_MODE0_CTRL_PRESCALER_DIV1;
++#endif
+     while (rtcMode0->STATUS.bit.SYNCBUSY) {}
+ 
+     /* Setup interrupt */
+diff -u -r RIOT/cpu/samd21/vectors.c ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/samd21/vectors.c
+--- RIOT/cpu/samd21/vectors.c	2017-05-30 15:36:48.428585437 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/samd21/vectors.c	2017-05-14 16:38:01.000000000 +0530
+@@ -23,6 +23,7 @@
+ 
+ #include "cpu_conf.h"
+ #include "vectors_cortexm.h"
++#include "dw1000_board.h"
+ 
+ /* get the start of the ISR stack as defined in the linkerscript */
+ extern uint32_t _estack;
+@@ -92,7 +93,11 @@
+         (0UL),                  /* reserved */
+         isr_pendsv,             /* pendSV interrupt, in RIOT the actual
+                                  * context switching is happening here */
++#ifdef SYSTICK_ENABLE
++        dw1000_systick_cb,      /* SysTick interrupt */
++#else
+         isr_systick,            /* SysTick interrupt, not used in RIOT */
++#endif
+         /* Atmel specific peripheral handlers */
+         isr_pm,                 /*  0 Power Manager */
+         isr_sysctrl,            /*  1 System Control */
+diff -u -r RIOT/cpu/stm32_common/periph/spi.c ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/stm32_common/periph/spi.c
+--- RIOT/cpu/stm32_common/periph/spi.c	2017-05-30 15:36:48.784585436 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/stm32_common/periph/spi.c	2017-05-14 16:38:01.000000000 +0530
+@@ -119,7 +119,11 @@
+ 
+ int spi_acquire(spi_t bus, spi_cs_t cs, spi_mode_t mode, spi_clk_t clk)
+ {
++    #ifdef RIOT_TREK_DW1000_APP /* The maximum SPI clock frequency is defined as 20MHz */
++    assert((clk >= SPI_CLK_100KHZ) && (clk <= SPI_CLK_18MHZ));
++    #else
+     assert((clk >= SPI_CLK_100KHZ) && (clk <= SPI_CLK_10MHZ));
++    #endif
+ 
+     /* lock bus */
+     mutex_lock(&locks[bus]);
+diff -u -r RIOT/cpu/stm32f4/vectors.c ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/stm32f4/vectors.c
+--- RIOT/cpu/stm32f4/vectors.c	2017-05-30 15:36:48.812585435 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/stm32f4/vectors.c	2017-05-14 16:38:01.000000000 +0530
+@@ -20,6 +20,7 @@
+ 
+ #include <stdint.h>
+ #include "vectors_cortexm.h"
++#include "dw1000_board.h"
+ 
+ /* get the start of the ISR stack as defined in the linkerscript */
+ extern uint32_t _estack;
+@@ -133,7 +134,11 @@
+     (void*) (0UL),                  /* Reserved */
+     (void*) isr_pendsv,             /* pendSV interrupt, in RIOT the actual
+                                      * context switching is happening here */
++#ifdef SYSTICK_ENABLE
++    (void*) dw1000_systick_cb,      /* SysTick interrupt */
++#else
+     (void*) isr_systick,            /* SysTick interrupt, not used in RIOT */
++#endif
+     /* STM specific peripheral handlers */
+     (void*) isr_wwdg,               /* Window WatchDog */
+     (void*) isr_pvd,                /* PVD through EXTI Line detection */
+diff -u -r RIOT/drivers/include/periph/spi.h ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/drivers/include/periph/spi.h
+--- RIOT/drivers/include/periph/spi.h	2017-05-30 15:36:48.820585435 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/drivers/include/periph/spi.h	2017-05-14 16:38:01.000000000 +0530
+@@ -162,7 +162,11 @@
+     SPI_CLK_400KHZ,         /**< drive the SPI bus with 400KHz */
+     SPI_CLK_1MHZ,           /**< drive the SPI bus with 1MHz */
+     SPI_CLK_5MHZ,           /**< drive the SPI bus with 5MHz */
++#ifdef RIOT_TREK_DW1000_APP
++    SPI_CLK_18MHZ           /**< drive the SPI bus with 18MHz */
++#else
+     SPI_CLK_10MHZ           /**< drive the SPI bus with 10MHz */
++#endif
+ } spi_clk_t;
+ #endif
+ 
+Only in RIOT/: .git
+diff -u -r RIOT/Makefile.include ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/Makefile.include
+--- RIOT/Makefile.include	2017-05-30 15:36:48.708585436 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/Makefile.include	2017-05-14 16:38:00.000000000 +0530
+@@ -179,8 +179,10 @@
+ 
+ # Add standard include directories
+ INCLUDES += -I$(RIOTBASE)/core/include -I$(RIOTBASE)/drivers/include -I$(RIOTBASE)/sys/include
++INCLUDES += -I$(RIOTBASE)/drivers/include/dw1000 -I$(RIOTBASE)/sys/include/dw1000_common
+ INCLUDES += -I$(RIOTCPU)/$(CPU)/include
+ INCLUDES += -I$(RIOTBOARD)/$(BOARD)/include
++INCLUDES += -I$(RIOTBOARD)/$(BOARD)/dw1000
+ 
+ # mandatory includes!
+ include $(RIOTBASE)/Makefile.pseudomodules
+diff -u -r RIOT/sys/Makefile ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/sys/Makefile
+--- RIOT/sys/Makefile	2017-05-30 15:36:48.828585435 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/sys/Makefile	2017-05-14 16:38:01.000000000 +0530
+@@ -102,6 +102,9 @@
+ ifneq (,$(filter gcoap,$(USEMODULE)))
+     DIRS += net/application_layer/coap
+ endif
++ifneq (,$(filter dw1000_common,$(USEMODULE)))
++    DIRS += dw1000_common
++endif
+ 
+ DIRS += $(dir $(wildcard $(addsuffix /Makefile, ${USEMODULE})))
+ 
