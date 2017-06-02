@@ -89,14 +89,14 @@ you can use to install all the required packages.
 #### KNOWN ISSUES
 
 * Tracking Use case
-Observed Anchor to anchor bias corrected range(ma), Tag to anchor bias corrected
-range(mc) and Tag to anchor raw range(mr) range deviation is between 25-40 cm
-instead of 15cm for all modes randomly.
+  Observed Anchor to anchor bias corrected range(ma), Tag to anchor bias corrected
+  range(mc) and Tag to anchor raw range(mr) range deviation is between 25-40 cm
+  instead of 15cm for all modes randomly.
 * Navigation Use case
-Observed that T0 to A0, A1, A2 Range info is detected as 0 randomly
+  Observed that T0 to A0, A1, A2 Range info is detected as 0 randomly
 * Geo-Fencing Use case
-Log Pattern is not proper as expected: A0:T0, A0:T1, A0:T0 & A0:T2 instead of
-A0:T0, A0:T1, A0:T2 for all modes. In case of Mode 3, this is observed occasionally
+  Log Pattern is not proper as expected: A0:T0, A0:T1, A0:T0 & A0:T2 instead of
+  A0:T0, A0:T1, A0:T2 for all modes. In case of Mode 3, this is observed occasionally
 
 
 ## DOCUMENTATION
