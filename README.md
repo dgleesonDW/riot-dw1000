@@ -62,40 +62,50 @@ package and click download.
 
 ## GETTING STARTED
 
-There is a shellscript in `riot-dw1000` called `setup.sh` which
-you can use to install all the required packages.
-* If you are using this repository for the first time, then dependent packages
-  or modules needs to be installed. 
-  Use the following command `./setup.sh INITIAL`
-* If you do not wish to install the dependent packages or modules and still want
-  to get latest code.
-  Use the following command `./setup.sh`
-
+## Installing Tool chain and Building DecaRange RTLS ARM Application for Nordic NRF52840 Platform
+*  To initialize the Environment Variables, installing Dependent Libraries (First time), setup(clone the RIOT repo and sym link creation for dw1000) and building the application
+    * Inside the cloned repo,run the script – `source ./build_setup.sh INITIAL`
+*  To initialize the Environment Variables, setup(clone the RIOT repo and sym link creation for dw1000) and building the application(Next Time on Wards)
+    * Inside the cloned repo,run the script – `source ./build_setup.sh UPDATE`
+*  To build the DecaRange RTLS ARM application
+    * Inside the cloned repo run the script – `source ./build_setup.sh`
 ## Hardware setup
 The Connection Details of the Hardware setup is explained in [Hardware_setup.md][HS].
 
 [HS]: ./DW1000/doc/Hardware_setup.md
 
 
-### USING THE RTLS ARM Application
-
-* Command to build
-    ```bash
-     $ make -C RIOT/examples/dw1000_rtls_arm BOARD=HW_PLATFORM
+### Running the DecaRange RTLS ARM Application on Nordic NRF52840 Platform
+* To flash
+     ```bash
+     $ sudo make -C $RIOT_ROOT/examples/dw1000_rtls_arm/ BOARD=$DW_HW_PLATFORM flash
     ```
-     * For Nordic - HW_PLATFORM = nrf52dk 
-     * For NucleoF401RE - HW_PLATFORM = nucleo-f401
-     * For Example: `make -C RIOT/examples/dw1000_rtls_arm BOARD=nrf52dk`    
-* Command to build and flash
-    ```bash
-     $ sudo make -C RIOT/examples/dw1000_rtls_arm BOARD=HW_PLATFORM flash
-    ```
-   * For Nordic - HW_PLATFORM = nrf52dk 
-   * For NucleoF401RE - HW_PLATFORM = nucleo-f401
-   * For Example: `sudo make -C RIOT/examples/dw1000_rtls_arm BOARD=nrf52dk flash`    
+### Running the DecaRange RTLS ARM Application on STM32 Nucleo F401RE Platform
+   * To Build 
+      - Modify the setenv.sh as `$DW_HW_PLATFORM=nucleo-f401`
+      - To build the DecaRange RTLS ARM application run the script – `source ./build_setup.sh`
+   * To Flash
+       ```bash
+       sudo make -C $RIOT_ROOT/examples/dw1000_rtls_arm/ BOARD=$DW_HW_PLATFORM flash”
+       ```
+
+## To Test DecaRange RTLS ARM Application Usecases
+
+1) Tracking Usecase:
+     * The Tracking use-case is explained in [Tracking.md][Tracking].
+
+       [Tracking]: ./DW1000/doc/Tracking.md
+2) Navigation Usecase:
+     * The Navigation use-case is explained in [Navigation.md][Navigation].
+
+       [Navigation]: ./DW1000/doc/Navigation.md
+3) Geo-Fencing Usecase:
+     * The Geo-fencing use-case is explained in [Geo-Fencing.md][Geo-Fencing].
+
+       [Geo-Fencing]: ./DW1000/doc/Geo-Fencing.md
 
 
-#### KNOWN ISSUES
+## KNOWN ISSUES
 
 * Tracking Use case
 Observed Anchor to anchor bias corrected range(ma), Tag to anchor bias
@@ -106,13 +116,15 @@ Observed that T0 to A0, A1, A2 Range info is detected as 0 randomly
 Log Pattern is not proper as expected: A0:T0, A0:T1, A0:T0 & A0:T2 instead of
 A0:T0, A0:T1, A0:T2 for all modes. In case of Mode 3, this is observed occasionally
 
-#### Known Limitations
+
+## Known Limitations
 
   Due to EVB 1000 Hardware constraints with External Microcontroller
 	    
   * Range Distance Estimation is displayed on PyTerm Terminal
   * Selection of Mode(Mode-1/2/3/4), UNIT(Tag/Anchor) and UNIT ID (0 to 2) is
     configured in DecaRange RTLS ARM Application based on User Input
+
 
 ## DOCUMENTATION
 
