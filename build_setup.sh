@@ -15,16 +15,12 @@
 source setenv.sh
 
 if [ "$#" -ne  "0" -a "$1" == "INITIAL" ]; then
-    echo "<SCRIPT_LOG> setup with install called.."
     cd $DW_RIOT_ROOT/..
-    pwd
-    ./setup.sh $1
+    source ./setup.sh $1
     cd -
 elif [ "$#" -ne  "0" -a "$1" == "UPDATE" ]; then
-    echo "<SCRIPT_LOG> setup with update called.."
     cd $DW_RIOT_ROOT/..
-    pwd
-    ./setup.sh $1
+    source ./setup.sh $1
     cd -
 fi
 #Clean the bins
