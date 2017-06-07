@@ -17,11 +17,9 @@ source setenv.sh
 if [ "$#" -ne  "0" -a "$1" == "INITIAL" ]; then
     cd $DW_RIOT_ROOT/..
     source ./setup.sh $1
-    cd -
 elif [ "$#" -ne  "0" -a "$1" == "UPDATE" ]; then
     cd $DW_RIOT_ROOT/..
     source ./setup.sh $1
-    cd -
 fi
 #Clean the bins
 if [ -d "$DW_RIOT_ROOT/examples/dw1000_rtls_arm/bin" ]; then
