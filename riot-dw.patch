@@ -1,6 +1,6 @@
 diff -u -r RIOT/boards/nrf52dk/include/periph_conf.h ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nrf52dk/include/periph_conf.h
---- RIOT/boards/nrf52dk/include/periph_conf.h	2017-05-30 15:36:48.716585436 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nrf52dk/include/periph_conf.h	2017-05-14 16:38:00.000000000 +0530
+--- RIOT/boards/nrf52dk/include/periph_conf.h   2017-05-30 15:36:48.716585436 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nrf52dk/include/periph_conf.h    2017-05-14 16:38:00.000000000 +0530
 @@ -61,8 +61,14 @@
  #define RTT_IRQ             RTC1_IRQn
  #define RTT_ISR             isr_rtc1
@@ -16,7 +16,7 @@ diff -u -r RIOT/boards/nrf52dk/include/periph_conf.h ../../Releases/REL.DCWL.BSP
 +#define RTT_PRESCALER       (3275U)        /* run with 10 Hz */
 +#endif
  /** @} */
- 
+
  /**
 @@ -83,7 +89,16 @@
          .dev  = NRF_SPI0,
@@ -34,19 +34,19 @@ diff -u -r RIOT/boards/nrf52dk/include/periph_conf.h ../../Releases/REL.DCWL.BSP
 +    }
 +#endif
  };
- 
+
  #define SPI_NUMOF           (sizeof(spi_config) / sizeof(spi_config[0]))
 diff -u -r RIOT/boards/nrf52dk/Makefile ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nrf52dk/Makefile
---- RIOT/boards/nrf52dk/Makefile	2017-05-30 15:36:48.344585438 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nrf52dk/Makefile	2017-05-14 16:38:00.000000000 +0530
+--- RIOT/boards/nrf52dk/Makefile    2017-05-30 15:36:48.344585438 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nrf52dk/Makefile 2017-05-14 16:38:00.000000000 +0530
 @@ -1,3 +1,3 @@
  MODULE = board
 -
 +DIRS += dw1000
  include $(RIOTBASE)/Makefile.base
 diff -u -r RIOT/boards/nucleo-f401/include/periph_conf.h ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nucleo-f401/include/periph_conf.h
---- RIOT/boards/nucleo-f401/include/periph_conf.h	2017-05-30 15:36:48.720585436 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nucleo-f401/include/periph_conf.h	2017-05-14 16:38:00.000000000 +0530
+--- RIOT/boards/nucleo-f401/include/periph_conf.h   2017-05-30 15:36:48.720585436 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nucleo-f401/include/periph_conf.h    2017-05-14 16:38:00.000000000 +0530
 @@ -30,7 +30,11 @@
   * @{
   */
@@ -56,7 +56,7 @@ diff -u -r RIOT/boards/nucleo-f401/include/periph_conf.h ../../Releases/REL.DCWL
 +#else
  #define CLOCK_CORECLOCK     (84000000U)         /* desired core clock frequency */
 +#endif
- 
+
  /* the actual PLL values are automatically generated */
  #define CLOCK_PLL_M         (CLOCK_HSE / 1000000)
 @@ -147,6 +151,7 @@
@@ -78,7 +78,7 @@ diff -u -r RIOT/boards/nucleo-f401/include/periph_conf.h ../../Releases/REL.DCWL
 +#endif
      }
  };
- 
+
 @@ -173,6 +182,16 @@
          .cs_pin   = GPIO_PIN(PORT_A, 4),
          .af       = GPIO_AF5,
@@ -97,24 +97,24 @@ diff -u -r RIOT/boards/nucleo-f401/include/periph_conf.h ../../Releases/REL.DCWL
      }
  };
 diff -u -r RIOT/boards/nucleo-f401/Makefile ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nucleo-f401/Makefile
---- RIOT/boards/nucleo-f401/Makefile	2017-05-30 15:36:48.348585438 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nucleo-f401/Makefile	2017-05-14 16:38:00.000000000 +0530
+--- RIOT/boards/nucleo-f401/Makefile    2017-05-30 15:36:48.348585438 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/nucleo-f401/Makefile 2017-05-14 16:38:00.000000000 +0530
 @@ -1,3 +1,3 @@
  MODULE = board
 -
 +DIRS += dw1000
  include $(RIOTBASE)/Makefile.base
 diff -u -r RIOT/boards/samr21-xpro/Makefile ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/samr21-xpro/Makefile
---- RIOT/boards/samr21-xpro/Makefile	2017-05-30 15:36:48.352585438 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/samr21-xpro/Makefile	2017-05-14 16:38:00.000000000 +0530
+--- RIOT/boards/samr21-xpro/Makefile    2017-05-30 15:36:48.352585438 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/boards/samr21-xpro/Makefile 2017-05-14 16:38:00.000000000 +0530
 @@ -1,3 +1,3 @@
  MODULE = board
 -
 +DIRS += dw1000
  include $(RIOTBASE)/Makefile.base
 diff -u -r RIOT/cpu/cortexm_common/include/cpu_conf_common.h ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/cortexm_common/include/cpu_conf_common.h
---- RIOT/cpu/cortexm_common/include/cpu_conf_common.h	2017-05-30 15:36:48.364585438 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/cortexm_common/include/cpu_conf_common.h	2017-05-14 16:38:00.000000000 +0530
+--- RIOT/cpu/cortexm_common/include/cpu_conf_common.h   2017-05-30 15:36:48.364585438 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/cortexm_common/include/cpu_conf_common.h    2017-05-14 16:38:00.000000000 +0530
 @@ -53,8 +53,14 @@
   * @{
   */
@@ -128,14 +128,14 @@ diff -u -r RIOT/cpu/cortexm_common/include/cpu_conf_common.h ../../Releases/REL.
 +
 +#endif
  /** @} */
- 
+
  #ifdef __cplusplus
 diff -u -r RIOT/cpu/samd21/periph/rtt.c ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/samd21/periph/rtt.c
---- RIOT/cpu/samd21/periph/rtt.c	2017-05-30 15:36:48.428585437 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/samd21/periph/rtt.c	2017-05-14 16:38:01.000000000 +0530
+--- RIOT/cpu/samd21/periph/rtt.c    2017-05-30 15:36:48.428585437 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/samd21/periph/rtt.c 2017-05-14 16:38:01.000000000 +0530
 @@ -96,7 +96,11 @@
      while (rtcMode0->STATUS.bit.SYNCBUSY || rtcMode0->CTRL.bit.SWRST) {}
- 
+
      /* Configure as 32bit counter with no prescaler and no clear on match compare */
 +#ifdef RIOT_TREK_DW1000_APP
 +    rtcMode0->CTRL.reg = RTC_MODE0_CTRL_MODE_COUNT32 | RTC_MODE0_CTRL_PRESCALER_DIV1 | RTC_MODE0_CTRL_MATCHCLR;
@@ -143,17 +143,17 @@ diff -u -r RIOT/cpu/samd21/periph/rtt.c ../../Releases/REL.DCWL.BSP.01.00.03/DCW
      rtcMode0->CTRL.reg = RTC_MODE0_CTRL_MODE_COUNT32 | RTC_MODE0_CTRL_PRESCALER_DIV1;
 +#endif
      while (rtcMode0->STATUS.bit.SYNCBUSY) {}
- 
+
      /* Setup interrupt */
 diff -u -r RIOT/cpu/samd21/vectors.c ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/samd21/vectors.c
---- RIOT/cpu/samd21/vectors.c	2017-05-30 15:36:48.428585437 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/samd21/vectors.c	2017-05-14 16:38:01.000000000 +0530
+--- RIOT/cpu/samd21/vectors.c   2017-05-30 15:36:48.428585437 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/samd21/vectors.c    2017-05-14 16:38:01.000000000 +0530
 @@ -23,6 +23,7 @@
- 
+
  #include "cpu_conf.h"
  #include "vectors_cortexm.h"
 +#include "dw1000_board.h"
- 
+
  /* get the start of the ISR stack as defined in the linkerscript */
  extern uint32_t _estack;
 @@ -92,7 +93,11 @@
@@ -169,10 +169,10 @@ diff -u -r RIOT/cpu/samd21/vectors.c ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_B
          isr_pm,                 /*  0 Power Manager */
          isr_sysctrl,            /*  1 System Control */
 diff -u -r RIOT/cpu/stm32_common/periph/spi.c ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/stm32_common/periph/spi.c
---- RIOT/cpu/stm32_common/periph/spi.c	2017-05-30 15:36:48.784585436 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/stm32_common/periph/spi.c	2017-05-14 16:38:01.000000000 +0530
+--- RIOT/cpu/stm32_common/periph/spi.c  2017-05-30 15:36:48.784585436 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/stm32_common/periph/spi.c   2017-05-14 16:38:01.000000000 +0530
 @@ -119,7 +119,11 @@
- 
+
  int spi_acquire(spi_t bus, spi_cs_t cs, spi_mode_t mode, spi_clk_t clk)
  {
 +    #ifdef RIOT_TREK_DW1000_APP /* The maximum SPI clock frequency is defined as 20MHz */
@@ -180,18 +180,18 @@ diff -u -r RIOT/cpu/stm32_common/periph/spi.c ../../Releases/REL.DCWL.BSP.01.00.
 +    #else
      assert((clk >= SPI_CLK_100KHZ) && (clk <= SPI_CLK_10MHZ));
 +    #endif
- 
+
      /* lock bus */
      mutex_lock(&locks[bus]);
 diff -u -r RIOT/cpu/stm32f4/vectors.c ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/stm32f4/vectors.c
---- RIOT/cpu/stm32f4/vectors.c	2017-05-30 15:36:48.812585435 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/stm32f4/vectors.c	2017-05-14 16:38:01.000000000 +0530
+--- RIOT/cpu/stm32f4/vectors.c  2017-05-30 15:36:48.812585435 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/cpu/stm32f4/vectors.c   2017-05-14 16:38:01.000000000 +0530
 @@ -20,6 +20,7 @@
- 
+
  #include <stdint.h>
  #include "vectors_cortexm.h"
 +#include "dw1000_board.h"
- 
+
  /* get the start of the ISR stack as defined in the linkerscript */
  extern uint32_t _estack;
 @@ -133,7 +134,11 @@
@@ -207,8 +207,8 @@ diff -u -r RIOT/cpu/stm32f4/vectors.c ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_
      (void*) isr_wwdg,               /* Window WatchDog */
      (void*) isr_pvd,                /* PVD through EXTI Line detection */
 diff -u -r RIOT/drivers/include/periph/spi.h ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/drivers/include/periph/spi.h
---- RIOT/drivers/include/periph/spi.h	2017-05-30 15:36:48.820585435 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/drivers/include/periph/spi.h	2017-05-14 16:38:01.000000000 +0530
+--- RIOT/drivers/include/periph/spi.h   2017-05-30 15:36:48.820585435 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/drivers/include/periph/spi.h    2017-05-14 16:38:01.000000000 +0530
 @@ -162,7 +162,11 @@
      SPI_CLK_400KHZ,         /**< drive the SPI bus with 400KHz */
      SPI_CLK_1MHZ,           /**< drive the SPI bus with 1MHz */
@@ -220,25 +220,25 @@ diff -u -r RIOT/drivers/include/periph/spi.h ../../Releases/REL.DCWL.BSP.01.00.0
 +#endif
  } spi_clk_t;
  #endif
- 
+
 Only in RIOT/: .git
 diff -u -r RIOT/Makefile.include ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/Makefile.include
---- RIOT/Makefile.include	2017-05-30 15:36:48.708585436 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/Makefile.include	2017-05-14 16:38:00.000000000 +0530
+--- RIOT/Makefile.include   2017-05-30 15:36:48.708585436 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/Makefile.include    2017-05-14 16:38:00.000000000 +0530
 @@ -179,8 +179,10 @@
- 
+
  # Add standard include directories
  INCLUDES += -I$(RIOTBASE)/core/include -I$(RIOTBASE)/drivers/include -I$(RIOTBASE)/sys/include
 +INCLUDES += -I$(RIOTBASE)/drivers/include/dw1000 -I$(RIOTBASE)/sys/include/dw1000_common
  INCLUDES += -I$(RIOTCPU)/$(CPU)/include
  INCLUDES += -I$(RIOTBOARD)/$(BOARD)/include
 +INCLUDES += -I$(RIOTBOARD)/$(BOARD)/dw1000
- 
+
  # mandatory includes!
  include $(RIOTBASE)/Makefile.pseudomodules
 diff -u -r RIOT/sys/Makefile ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/sys/Makefile
---- RIOT/sys/Makefile	2017-05-30 15:36:48.828585435 +0530
-+++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/sys/Makefile	2017-05-14 16:38:01.000000000 +0530
+--- RIOT/sys/Makefile   2017-05-30 15:36:48.828585435 +0530
++++ ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00_03/RIOT/sys/Makefile    2017-05-14 16:38:01.000000000 +0530
 @@ -102,6 +102,9 @@
  ifneq (,$(filter gcoap,$(USEMODULE)))
      DIRS += net/application_layer/coap
@@ -246,6 +246,6 @@ diff -u -r RIOT/sys/Makefile ../../Releases/REL.DCWL.BSP.01.00.03/DCWL_BSP_01_00
 +ifneq (,$(filter dw1000_common,$(USEMODULE)))
 +    DIRS += dw1000_common
 +endif
- 
+
  DIRS += $(dir $(wildcard $(addsuffix /Makefile, ${USEMODULE})))
- 
+

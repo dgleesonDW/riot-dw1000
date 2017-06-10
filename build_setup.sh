@@ -3,12 +3,12 @@
 # Author     : Nishal
 # Date       : 5th June 2017
 # File       : build_setup.sh
-# Version    : 0.1 
+# Version    : 0.1
 # Description: This script does the following thing
 #              1)setup for the system to work when called with INITIAL
 #              2)git clone of opensource repo when called with UPDATE
-#              3)build and flash of application 
-#              
+#              3)build and flash of application
+#
 #******************************************************************#
 
 #Export environment variable

@@ -28,7 +28,7 @@
 The friendly Operating System for IoT!
 
 RIOT is a real-time multi-threading operating system that supports a range of
-devices that are typically found in the Internet of Things (IoT): 
+devices that are typically found in the Internet of Things (IoT):
 8-bit, 16-bit and 32-bit microcontrollers.
 
 RIOT is based on the following design principles: energy-efficiency, real-time
@@ -55,7 +55,7 @@ Added support for DecaRange RTLS ARM Application
 
 * To flash the binary JLink is use, please install the tool manually from
 https://www.segger.com/downloads/jlink.
-* Expand J-Link Software and Documentation Pack and select the suitable 
+* Expand J-Link Software and Documentation Pack and select the suitable
 package and click download.
 * Double click on the downloaded package to install.
 
@@ -81,7 +81,7 @@ The Connection Details of the Hardware setup is explained in [Hardware_setup.md]
      $ sudo make -C $RIOT_ROOT/examples/dw1000_rtls_arm/ BOARD=$DW_HW_PLATFORM flash
     ```
 ### Running the DecaRange RTLS ARM Application on STM32 Nucleo F401RE Platform
-   * To Build 
+   * To Build
       - Modify the setenv.sh as `$DW_HW_PLATFORM=nucleo-f401`
       - To build the DecaRange RTLS ARM application run the script – `source ./build_setup.sh`
    * To Flash
@@ -120,7 +120,7 @@ A0:T0, A0:T1, A0:T2 for all modes. In case of Mode 3, this is observed occasiona
 ## Known Limitations
 
   Due to EVB 1000 Hardware constraints with External Microcontroller
-	    
+
   * Range Distance Estimation is displayed on PyTerm Terminal
   * Selection of Mode(Mode-1/2/3/4), UNIT(Tag/Anchor) and UNIT ID (0 to 2) is
     configured in DecaRange RTLS ARM Application based on User Input

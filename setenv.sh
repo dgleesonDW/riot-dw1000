@@ -3,13 +3,13 @@
 # Author     : Nishal
 # Date       : 5th June 2017
 # File       : build.sh
-# Version    : 0.1 
-# Description: This script initializes the path as enviroment 
+# Version    : 0.1
+# Description: This script initializes the path as enviroment
 #              variables for the following
 #              1) RIOT_ROOT(open source)
 #              2) DW_RIOT_ROOT(DW specific)
 #              3) DW_HW_PLATFORM(default HW platform)
-#              
+#
 #******************************************************************#
 
 #Get the real path of the script

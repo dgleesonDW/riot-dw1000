@@ -3,10 +3,10 @@
 # Author     : Nishal
 # Date       : 29th May 2017
 # File       : setup.sh
-# Version    : 0.1 
-# Description: This script does the setup for the system to work 
+# Version    : 0.1
+# Description: This script does the setup for the system to work
 #              with DW1000 examples
-#              
+#
 #******************************************************************#
 #Initialising the necessary variables required for this script
 DIR=$(pwd)
@@ -81,7 +81,7 @@ if [ "$1" == "INITIAL" -o "$1" == "UPDATE" ]; then
     sudo ln -s $DW_RIOT_ROOT/sys/dw1000_common $RIOT_ROOT/sys/dw1000_common
     sudo ln -s $DW_RIOT_ROOT/sys/include/dw1000_common $RIOT_ROOT/sys/include/dw1000_common
     sudo ln -s $DW_RIOT_ROOT/examples/dw1000_rtls_arm $RIOT_ROOT/examples/dw1000_rtls_arm
-    sudo ln -s $DW_RIOT_ROOT/doc/doxygen/html $RIOT_ROOT/doc/doxygen/html 
+    sudo ln -s $DW_RIOT_ROOT/doc/doxygen/html $RIOT_ROOT/doc/doxygen/html
     sync
 
     #Apply a patch for the makefile changes.
