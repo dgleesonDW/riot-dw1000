@@ -51,6 +51,8 @@ platform.
 
 Added support for DecaRange RTLS ARM Application
 
+Added support for Deca Multi-threaded Application for Nordic platform.
+
 ## Dependent tools to used for Nordic board
 
 * To flash the binary JLink is use, please install the tool manually from
@@ -69,6 +71,17 @@ package and click download.
     * Inside the cloned repo,run the script – `source ./build_setup.sh UPDATE`
 *  To build the DecaRange RTLS ARM application
     * Inside the cloned repo run the script – `source ./build_setup.sh`
+    
+ ## Building Deca Multi-Threaded Application for Nordic NRF52840 Platform
+ 
+*  To build the Deca Multi-Threaded Application
+    * Replace line number 30 of `build_setup.sh` file with `make -C $RIOT_ROOT/examples/dw1000_multithreaded_app BOARD=$DW_HW_PLATFORM`
+    * Then inside the cloned repo run the script – `source ./build_setup.sh`
+ 
+NOTE:
+Follow the steps 1 and step 2 of `Installing Tool chain and Building DecaRange RTLS ARM Application for Nordic NRF52840   Platform` for installing tool chains.
+
+    
 ## Hardware setup
 The Connection Details of the Hardware setup is explained in [Hardware_setup.md][HS].
 
@@ -88,6 +101,11 @@ The Connection Details of the Hardware setup is explained in [Hardware_setup.md]
        ```bash
        sudo make -C $RIOT_ROOT/examples/dw1000_rtls_arm/ BOARD=$DW_HW_PLATFORM flash”
        ```
+### Running the Deca Multi-Threaded Application on Nordic NRF52840 Platform
+* To flash
+     ```bash
+     $ sudo make -C $RIOT_ROOT/examples/dw1000_multithreaded_app/ BOARD=$DW_HW_PLATFORM flash
+    ```
 
 ## To Test DecaRange RTLS ARM Application Usecases
 
@@ -103,6 +121,22 @@ The Connection Details of the Hardware setup is explained in [Hardware_setup.md]
      * The Geo-fencing use-case is explained in [Geo-Fencing.md][Geo-Fencing].
 
        [Geo-Fencing]: ./DW1000/doc/Geo-Fencing.md
+
+
+## To Test Deca Multithreaded Application Usecases
+
+1) Tracking Usecase:
+     * The Tracking use-case is explained in [Tracking.md][Tracking_multithread].
+
+       [Tracking_multithread]: ./DW1000/doc/Tracking_multithread.md
+2) Navigation Usecase:
+     * The Navigation use-case is explained in [Navigation.md][Navigation_multithread].
+
+       [Navigation_multithread]: ./DW1000/doc/Navigation_multithread.md
+3) Geo-Fencing Usecase:
+     * The Geo-fencing use-case is explained in [Geo-Fencing.md][Geo-Fencing_multithread].
+
+       [Geo-Fencing_multithread]: ./DW1000/doc/Geo-Fencing_multithread.md
 
 
 ## KNOWN ISSUES
@@ -122,14 +156,13 @@ A0:T0, A0:T1, A0:T2 for all modes. In case of Mode 3, this is observed occasiona
   Due to EVB 1000 Hardware constraints with External Microcontroller
 
   * Range Distance Estimation is displayed on PyTerm Terminal
-  * Selection of Mode(Mode-1/2/3/4), UNIT(Tag/Anchor) and UNIT ID (0 to 2) is
-    configured in DecaRange RTLS ARM Application based on User Input
+  * Selection of Mode(Mode-1/2/3/4), UNIT(Tag/Anchor) and UNIT ID (0 to 2) is configured in Deca Multi-Threaded Application and DecaRange RTLS ARM Application based on User Input 
+  * On Anchors, Thread Switching will not happen for Deca Multi-Threaded Application as DecaRange RTLS ARM Application being a high priority thread never goes to sleep state. 
 
 
 ## DOCUMENTATION
 
-* Userguide is available in DW1000/doc/PP_DecaWave_BSP_ReleaseNotes.pdf
-* ReleaseNote is available in DW1000/doc/PP_DecaWave_BSP_UserGuide.pdf
-
+* Userguide is available in DW1000/doc/PP_DecaWave_RIOT_DW1000_ReleaseNotes.pdf
+* ReleaseNote is available in DW1000/doc/PP_DecaWave_RIOT_DW1000_UserGuide.pdf
 
 

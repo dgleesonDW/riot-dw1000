@@ -31,9 +31,6 @@ BOARD ?= samr21-xpro
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(CURDIR)/../../../RIOT
 
-FEATURES_REQUIRED += periph_gpio
-FEATURES_REQUIRED += periph_spi
-
 ifeq ($(BOARD),nrf52dk)
 FEATURES_REQUIRED += periph_rtt
 endif

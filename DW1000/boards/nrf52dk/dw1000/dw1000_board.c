@@ -28,10 +28,24 @@
  */
 
 #include "dw1000_board.h"
+#include "periph/timer.h"
 #include "cpu.h"
 
 /* RTT 32 bit variable defined by the platform */
 int time32_incr;
+
+#ifdef RIOT_MULTI_THREADED_APP
+void dw1000_timer_isr(void *arg, int ch)
+{
+    /* Wake-up the timer_thread Thread */
+    sem_post(&sem);
+
+    /* set the timer channel and also configures the ticks for the callback */
+    timer_set(TIMER_CFG_INSTANCE,
+              TIMER_CFG_CHANNEL,
+              TIMER_TICKS_TO_WAIT);
+}
+#endif
 
 void dw1000_cb(void *arg)
 {
@@ -66,6 +80,11 @@ void dw1000_board_init(void)
 
     /* initialise the RTT module */
     dw1000_rtt_init();
+
+#ifdef RIOT_MULTI_THREADED_APP
+    /*initialise the timer for software interrupt */
+    dw1000_timer_init();
+#endif
 }
 
 void dw1000_gpio_init(void)
@@ -97,3 +116,25 @@ void dw1000_rtt_init(void)
     /* set the alarm and also configure the ticks for the callback */
     rtt_set_alarm(RTT_TICKS_TO_WAIT, dw1000_cb, NULL);
 }
+
+#ifdef RIOT_MULTI_THREADED_APP
+void dw1000_timer_init(void)
+{
+    /* initialise the timer instance */
+    timer_init(TIMER_CFG_INSTANCE,
+               TIMER_FREQ,
+               dw1000_timer_isr,
+               NULL);
+
+    /* stop the timer */
+    timer_stop(TIMER_CFG_INSTANCE);
+
+    /* set the timer channel and also configures the ticks for the callback */
+    timer_set(TIMER_CFG_INSTANCE,
+              TIMER_CFG_CHANNEL,
+              TIMER_TICKS_TO_WAIT);
+
+    /* start the timer */
+    timer_start(TIMER_CFG_INSTANCE);
+}
+#endif

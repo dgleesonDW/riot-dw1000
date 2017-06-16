@@ -36,6 +36,10 @@
 #include <periph/rtt.h>
 #include "dw1000_port.h"
 
+#ifdef RIOT_MULTI_THREADED_APP
+#include <semaphore.h>
+#endif
+
 #ifdef __cplusplus
 extern "c" {
 #endif
@@ -81,57 +85,128 @@ extern "c" {
  */
 #define EXT_IRQ                         GPIOTE_IRQn
 
+#ifdef RIOT_MULTI_THREADED_APP
 /**
- * @brief DW1000 Interrupt handler
+ * @brief Configures Timer tick value for 1msec on NRF52840 Board
+ */
+#define TIMER_TICKS_TO_WAIT              (16000U)
+
+/**
+ * @brief Configures TIMER Frequency as 16MHz
+ */
+#define TIMER_FREQ                       (16000000U)
+
+/**
+ * @brief TIMER Channel Configuration
+ */
+#define TIMER_CFG_CHANNEL               (0U)
+
+/**
+ * @brief TIMER Instance Configuration
+ */
+#define TIMER_CFG_INSTANCE              (2U)
+
+/**
+ * Semaphore variable to notify the timer thread
+ *
+ * @note
+ * This is valid only for dw1000_multithreaded_app
+ */
+extern sem_t sem;
+
+/**
+ * @brief  Timer ISR function
+ *
+ * @param  arg   Pointer to the arg variable
+ * @param  ch    Channel number
+ *
+ * @return void
+ *
+ * @note
+ * This is valid only for dw1000_multithreaded_app
+ */
+void dw1000_timer_isr(void *arg, int ch);
+#endif
+
+/**
+ * @brief  DW1000 Interrupt handler
+ *
+ * @param  No arguments
+ *
+ * @return void
  */
 void process_deca_irq(void);
 
 /**
- * @brief Initialize decawave DW1000 board specific hardware for the peripherals
- *        GPIO, SPI and External Interrupt configuration
+ * @brief  This function handles RTT Handler
+ *
+ * @param  arg Pointer to the arg variable
+ *
+ * @return void
+ */
+void dw1000_cb(void *arg);
+
+/**
+ * @brief  Initialize decawave DW1000 board specific hardware for the
+ *         peripherals GPIO, SPI and External Interrupt configuration
  *
  * @param  No arguments
- * @return Void
+ *
+ * @return void
  */
 void dw1000_board_init(void);
 
 /**
- * @brief Initializes and Enables a GPIO pin for External Interrupt usage
+ * @brief  Initializes and Enables a GPIO pin for External Interrupt usage
  *
  * @param  No arguments
+ *
  * @return Void
  */
 void dw1000_interrupt_init(void);
 
 /**
- * @brief This function does basic SPI initialization and configures pin
- *        configuration for MISO, MOSI, and CLK pins
+ * @brief  This function does basic SPI initialization and configures pin
+ *         configuration for MISO, MOSI, and CLK pins
  *
  * @param  No arguments
- * @return Void
+ *
+ * @return void
  */
 void dw1000_spi_init(void);
 
 /**
- * @brief Initializes and configures GPIO's for decawave DW1000 Board
+ * @brief  Initializes and configures GPIO's for decawave DW1000 Board
  *
  * @param  No arguments
- * @return Void
+ *
+ * @return void
  */
 void dw1000_gpio_init(void);
 
 /**
- * @brief Intialize RTC as counter
+ * @brief  Intialize RTC as counter
  *
  * @param  No arguments
- * @return Void
+ *
+ * @return void
  */
 void dw1000_rtt_init(void);
 
+
+#ifdef RIOT_MULTI_THREADED_APP
 /**
- * @brief This function handles RTT Handler
+ * @brief  Initializes timer for software interrupt
+ *
+ * @param  No arguments
+ *
+ * @return void
+ *
+ * @note
+ * This is valid only for dw1000_multithreaded_app
  */
-void dw1000_cb(void *arg);
+void dw1000_timer_init(void);
+#endif
 
 #ifdef __cplusplus
 }
